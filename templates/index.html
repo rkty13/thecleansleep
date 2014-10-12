@@ -84,9 +84,9 @@
 <script>
   (function($) {
     $( document ).ready(function() {
-      alert('fuck this shit');
       $( '#initial-cover-remove' ).click(function() {
         $( '.initial-background-container' ).animate({'opacity': '0'}, 500);
+        $( '.initial-cover-container').animate({'opacity': '0'}, 500);
       });
     });
   })(jQuery)
@@ -95,17 +95,15 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    <div id="map-canvas"></div>
-    <div class="initial-background-container"></div>
-    <div class="initial-cover-container">
-      <div class="initial-cover">
-        <div class="center-text">
-          <h1>Clean Sleep</h1>
-          <p>Rate hotels by cleanliness</p>
-          <button type="button" class="btn btn-default" id="initial-cover-remove">Search Now!</button>
-        </div>
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  <div id="map-canvas"></div>
+  <div class="initial-background-container"></div>
+  <div class="initial-cover-container">
+    <div class="initial-cover">
+      <div class="center-text">
+        <h1>Clean Sleep</h1>
+        <p>Rate hotels by cleanliness</p>
+        <button type="button" class="btn btn-default" id="initial-cover-remove">Search Now!</button>
       </div>
     </div>
   </div>
