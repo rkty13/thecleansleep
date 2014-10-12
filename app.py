@@ -30,22 +30,24 @@ def rate():
 
 		return redirect('/rate')
 
-	hotels = {}
+	hotels = []
 
 	h_counter = 0
 
 	for record in collection.find():
 		ratings = record['ratings']
-		total = 0
-		counter = 0
+		total = 0.0
+		counter = 0.0
  		
 		for x in range(0, len(ratings)):
-			total += ratings[x]
-			counter += 1
-		hotels[h_counter] = { "name" : record['name'], "rating" : total/counter}
+			total += float(str(ratings[x]))
+			counter += 1.0
+
+		average = total/counter
+		print(average)
+		hotels.append({ "name" : record['name'], "rating" : round(average, 2) })
 
 		h_counter += 1
-
 
 	return render_template('rate.html', hotels=hotels)
 
