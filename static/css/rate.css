@@ -2,6 +2,6 @@ body{
 	background-color: #FFFFFF;
 } 
 
-.form-group {
+.form-group label{
 	display: block;
 }
