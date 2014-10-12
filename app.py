@@ -22,9 +22,10 @@ def index():
 def rate():
 	if request.method == 'POST':
 		rating = request.form['rating']
-		hotel_name = request.form['hotel_name']
-		gp_id = request.form['gp_id']
+		hotel_name = request.form['pac_input']
 
-		collection.update( { "name" : hotel_name }, { "_id" : gp_id } , { "$push" : { "rating": rating }}, upsert=True)
-	
+		collection.update( { "name" : hotel_name }, { "$push" : {"ratings" : { "rating": rating }}}, upsert=True)
+
+		return redirect('/rate')
+
 	return render_template('rate.html')
