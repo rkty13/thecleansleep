@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, session, redirect, jsonify
 import jinja2
 import os
 import hashlib
+import json
 
 import datetime
 import pymongo
 from pymongo import MongoClient
 
 app = Flask(__name__)
+app.debug = True
 
 MONGO_URL = os.environ.get('MONGOLAB_URI')
 client = MongoClient(MONGO_URL)
@@ -24,8 +26,29 @@ def rate():
 		rating = request.form['rating']
 		hotel_name = request.form['pac_input']
 
-		collection.update( { "name" : hotel_name }, { "$push" : {"ratings" : { "rating": rating }}}, upsert=True)
+		collection.update( { "name" : hotel_name }, { "$push" : {"ratings" : rating }}, upsert=True)
 
 		return redirect('/rate')
 
-	return render_template('rate.html')
+	hotels = {}
+
+	h_counter = 0
+
+	for record in collection.find():
+		ratings = record['ratings']
+		total = 0
+		counter = 0
+ 		
+		for x in range(0, len(ratings)):
+			total += ratings[x]
+			counter += 1
+		hotels[h_counter] = { "name" : record['name'], "rating" : total/counter}
+
+		h_counter += 1
+
+
+	return render_template('rate.html', hotels=hotels)
+
+@app.route('/about')
+def about():
+	return render_template('about.html')
