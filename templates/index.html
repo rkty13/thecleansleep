@@ -85,8 +85,12 @@
   (function($) {
     $( document ).ready(function() {
       $( '#initial-cover-remove' ).click(function() {
-        $( '.initial-background-container' ).animate({'opacity': '0'}, 500);
-        $( '.initial-cover-container').animate({'opacity': '0'}, 500);
+        $( '.initial-background-container' ).animate({'opacity': '0'}, 500, function() {
+            $( this ).remove();
+          });
+        $( '.initial-cover-container').animate({'opacity': '0'}, 500, function() {
+            $( this ).remove();
+          });
       });
     });
   })(jQuery)
