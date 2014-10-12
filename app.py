@@ -29,8 +29,6 @@ def rate():
 		hotel_name = request.form['pac_input']
 		name = request.form['name']
 		comment = request.form['comment']
-		print(name)
-		print(comment)
 
 		collection.update( { "name" : hotel_name }, { "$push" : {"ratings" : rating }}, upsert=True)
 		collection.update( { "name" : hotel_name}, { "$push" : {"comments" : {"name" : name, "comment" : comment, "rating" : rating}}}, upsert=True)
@@ -50,7 +48,6 @@ def rate():
 
 		average = total/counter
 		hotels.append({ "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']) })
-		print(hotels)
 
 	return render_template('rate.html', hotels=hotels)
 
