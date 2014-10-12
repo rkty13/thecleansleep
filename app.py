@@ -1,11 +1,17 @@
+from flask import Flask, render_template, request, session, redirect, jsonify
+import jinja2
 import os
-from flask import Flask
+import hashlib
+
+import datetime
+import pymongo
+from pymongo import MongoClient
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return 'Welcome to the clean sleep! Hello World ERIC! Hello World Joon! Hello World Robert!'
+	return render_template('index.html')
 
 @app.route('/rate')
 def rate():
