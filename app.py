@@ -3,6 +3,7 @@ import jinja2
 import os
 import hashlib
 import json
+from bson.objectid import ObjectId
 
 import datetime
 import pymongo
@@ -15,6 +16,7 @@ MONGO_URL = os.environ.get('MONGOLAB_URI')
 client = MongoClient(MONGO_URL)
 db = client.heroku_app30619679
 collection = db.hotels
+url = "cleansleep.herokuapp.com"
 
 @app.route('/')
 def index():
@@ -25,14 +27,17 @@ def rate():
 	if request.method == 'POST':
 		rating = request.form['rating']
 		hotel_name = request.form['pac_input']
+		name = request.form['name']
+		comment = request.form['comment']
+		print(name)
+		print(comment)
 
 		collection.update( { "name" : hotel_name }, { "$push" : {"ratings" : rating }}, upsert=True)
+		collection.update( { "name" : hotel_name}, { "$push" : {"comments" : {"name" : name, "comment" : comment, "rating" : rating}}}, upsert=True)
 
 		return redirect('/rate')
 
 	hotels = []
-
-	h_counter = 0
 
 	for record in collection.find():
 		ratings = record['ratings']
@@ -44,10 +49,8 @@ def rate():
 			counter += 1.0
 
 		average = total/counter
-		print(average)
-		hotels.append({ "name" : record['name'], "rating" : round(average, 2) })
-
-		h_counter += 1
+		hotels.append({ "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']) })
+		print(hotels)
 
 	return render_template('rate.html', hotels=hotels)
 
@@ -57,15 +60,38 @@ def browse():
 
 	for record in collection.find():
 		ratings = record['ratings']
-		total = 0
-		counter = 0
+		total = 0.0
+		counter = 0.0
  		
 		for x in range(0, len(ratings)):
-			total += int(ratings[x])
+			total += float(str(ratings[x]))
 			counter += 1.0
-		hotels.append({ "name" : record['name'], "rating" : total/counter})
-		print(total/counter)
+
+		average = total/counter
+		hotels.append({ "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']) })
 	return render_template('browse.html', hotels=hotels)
+
+@app.route('/browse/<hotel_id>')
+def hotels(hotel_id):
+	record = collection.find_one({"_id": ObjectId(hotel_id)})
+
+	comments = []
+	comments_db = record["comments"]
+	for x in range(0, len(comments_db)):
+		comments.append(comments_db[x])
+
+	hotel = []
+	ratings = record["ratings"]
+	total = 0.0
+	counter = 0.0
+
+	for x in range(0, len(ratings)):
+		total += float(str(ratings[x]))
+		counter += 1.0
+
+	average = total/counter
+	hotel.append({"name" : record["name"], "rating" : round(average, 2)})
+	return render_template('hotels.html', hotel=hotel[0],comments=comments)
 
 @app.route('/about')
 def about():
