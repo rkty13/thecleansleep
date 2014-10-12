@@ -2,23 +2,40 @@
 
 {% block header %}
 
-<link type="text/css" rel="stylesheet" href="static/css/browse.css"/>	
+<link type="text/css" rel="stylesheet" href="/static/css/browse.css"/>	
+
+<script>
+  (function($) {
+    $( document ).ready(function() {
+      var $container = $( '.row' );
+      $container.masonry({
+        itemSelector: '.mason-item'
+      });
+      var msnry = $container.data('masonry');
+    })
+  })(jQuery)
+</script>
 
 {% endblock %}
 
 {% block content %}
 
-<div class="row col-md-10">
-{% for hotel in hotels %}
-	<div class="col-sm-5 col-md-3">
-		<div class="thumbnail">
-			<img src="http://placehold.it/300x300" />
-			<div class="caption">
-				<h3>{{hotel.name}}</h3>
-				<p>{{hotel.rating}}</p>
+<div class="row-container">
+	<div class="page-header">
+		<h1>Browse Rated Hotels</h1>
+	</div>
+	<div class="row">
+	{% for hotel in hotels %}
+		<div class="mason-item col-sm-6 col-md-3">
+			<div class="thumbnail">
+				<div class="caption">
+					<h4>{{hotel.name}}</h4>
+					<p>{{hotel.rating}}</p>
+					<p><a href="{{ ''.join(['/browse/', hotel.url]) }}" class="btn btn-primary" role="button">Reviews</a></p>
+				</div>
 			</div>
 		</div>
+	{% endfor %}
 	</div>
-{% endfor %}
 </div>
 {% endblock %}
