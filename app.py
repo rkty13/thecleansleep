@@ -62,9 +62,9 @@ def browse():
  		
 		for x in range(0, len(ratings)):
 			total += int(ratings[x])
-			counter += 1
+			counter += 1.0
 		hotels.append({ "name" : record['name'], "rating" : total/counter})
-
+		print(total/counter)
 	return render_template('browse.html', hotels=hotels)
 
 @app.route('/about')
