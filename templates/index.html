@@ -1,20 +1,15 @@
 {% extends "base.html" %}
 
 {% block header %}
-  <script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIodKK6MCalB4e5Lr5r_bGnZO8YhdRUaY">
-  </script>
-  <script type="text/javascript">
-    function initialize() {
-      var mapOptions = {
-        center: { lat: -34.397, lng: 150.644},
-        zoom: 8
-      };
-      var map = new google.maps.Map(document.getElementById('map-canvas'),
-          mapOptions);
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
-  </script>
+<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places'></script>
+<script src='js/maps.js'></script>
+
+<h2>WHERE ARE YOU?</h2>
+<div id='map-container' style='margin: 0 auto; text-align:center; position:relatve;'>
+    <i class="fa fa-2x fa-map-marker"></i>
+    <input id="pac-input" name='pac-input' class="controls" type="text" placeholder="Enter Venue" data-role="none">
+    <div id="map-canvas" style='display:none'></div>
+</div>
 {% endblock %}
 
 {% block content %}
