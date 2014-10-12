@@ -14,6 +14,34 @@
     var map = new google.maps.Map(document.getElementById('map-canvas'), {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
+    //start test code
+    //do not delete these examples
+
+    $.getJSON('/list', function(data) {
+        var locations = data['hotels'];
+        var infowindow = new google.maps.InfoWindow({
+            maxHeight: 300
+        });
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {  
+          var c_loc = locations[i];
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i]['lat'], locations[i]['lng']),
+            map: map
+          });
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent(c_loc['name'] + '<br />' + 'Rating: ' + c_loc['rating']);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+        }
+    });
+
+    //end test code
 
     var defaultBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(40.7, -75.0),
@@ -58,8 +86,7 @@
           map: map,
           icon: image,
           title: place.name,
-          position: place.geometry.location,
-          hello: hello
+          position: place.geometry.location
         });
 
         markers.push(marker);

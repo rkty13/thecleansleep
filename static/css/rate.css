@@ -1,28 +1,32 @@
- html, body, #map-canvas {
-    height: 100%;
-    margin: 0px;
-    padding: 0px
-  }
-  #type-selector {
-    color: #fff;
-    background-color: #4d90fe;
-    padding: 5px 11px 0px 11px;
-  }
+html, body, #map-canvas {
+  height: 100%;
+  margin: 0px;
+  padding: 0px
+}
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
 
-  #type-selector label {
-    font-family: Roboto;
-    font-size: 13px;
-    font-weight: 300;
-  }
-  .row {
-    margin: 0 auto;
-    float: none !important;
-  }
-  .form-container {
-    width: 30%;
-    margin: 0 auto;
-  } 
-  textarea {
-    resize: none;
-  }
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+.row {
+  margin: 0 auto;
+  float: none !important;
+}
+.form-container {
+  width: 30%;
+  margin: 0 auto;
+} 
+textarea {
+  resize: none;
+}
+
+#map-canvas {
+  max-height:1000px;
+  overflow-y:auto;
 }
