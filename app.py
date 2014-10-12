@@ -29,3 +29,7 @@ def rate():
 		return redirect('/rate')
 
 	return render_template('rate.html')
+
+@app.route('/about')
+def about():
+	return render_template('about.html')
