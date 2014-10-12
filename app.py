@@ -49,6 +49,27 @@ def rate():
 
 	return render_template('rate.html', hotels=hotels)
 
+@app.route('/browse')
+def browse():
+	hotels = {}
+
+	h_counter = 0
+
+	for record in collection.find():
+		ratings = record['ratings']
+		total = 0
+		counter = 0
+ 		
+		for x in range(0, len(ratings)):
+			total += int(ratings[x])
+			counter += 1
+		hotels[h_counter] = { "name" : record['name'], "rating" : str(total/counter)}
+
+		h_counter += 1
+
+
+	return render_template('browse.html', hotels=hotels)
+
 @app.route('/about')
 def about():
 	return render_template('about.html')
