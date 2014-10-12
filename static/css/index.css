@@ -35,3 +35,8 @@
 }
 
 #map-canvas { height: 100%; margin: 0; padding: 0;}
+
+.gm-style-iw {
+width: 300px; 
+min-height: 150px;
+}

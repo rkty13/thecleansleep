@@ -68,7 +68,7 @@ def list():
 			counter += 1.0
 
 		average = total/counter
-		hotels.append({ "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']), "lat" : record['lat'], "lng" : record['lng'] })
+		hotels.append({ "_id" : str(record['_id']), "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']), "lat" : record['lat'], "lng" : record['lng'] })
 
 	return jsonify(hotels=hotels)
 
@@ -86,7 +86,7 @@ def browse():
 			counter += 1.0
 
 		average = total/counter
-		hotels.append({ "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']) })
+		hotels.append({ "_id" : str(record['_id']) , "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']) })
 	return render_template('browse.html', hotels=hotels)
 
 @app.route('/browse/<hotel_id>')

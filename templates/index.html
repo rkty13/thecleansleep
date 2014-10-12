@@ -34,7 +34,7 @@
 
           google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-              infowindow.setContent(c_loc['name'] + '<br />' + 'Rating: ' + c_loc['rating']);
+              infowindow.setContent('<div class="infowindow">' + c_loc['name'] + '<br />' + 'Rating: ' + c_loc['rating'] + '</br> <a href="/browse/' + c_loc['_id'] + '">Read reviews ..</a></div>');
               infowindow.open(map, marker);
             }
           })(marker, i));

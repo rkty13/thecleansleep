@@ -25,8 +25,3 @@ html, body, #map-canvas {
 textarea {
   resize: none;
 }
-
-#map-canvas {
-  max-height:1000px;
-  overflow-y:auto;
-}
