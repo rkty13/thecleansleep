@@ -100,12 +100,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
       <h1>Rate a hotel</h1>
     </div>
 		<form name="input" action="/rate" method="POST" role="form">
-      <div class="hotel-name">
+      <div class="form-group">
         <label for="pac-input">Hotel Name</label>
         <input id="pac-input" name="pac_input" class="controls" type="text" placeholder="Hotel">
       </div>
       <div id="map-canvas" style="display:none;"></div>
-       <div class="rating-input">
+       <div class="form-group">
          <label for="rating-value">Rating</label>
 			   <select id="rating-value" name="rating">
 				    <option value="1">1</option>
