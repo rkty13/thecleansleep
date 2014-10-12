@@ -30,7 +30,6 @@ def rate():
 
 		return redirect('/rate')
 
-<<<<<<< HEAD
 	hotels = {}
 
 	h_counter = 0
@@ -49,10 +48,7 @@ def rate():
 
 
 	return render_template('rate.html', hotels=hotels)
-=======
-	return render_template('rate.html')
 
 @app.route('/about')
 def about():
 	return render_template('about.html')
->>>>>>> 19d80e1325fe479b15807e00740836669bd2c3e7
