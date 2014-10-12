@@ -26,7 +26,7 @@
         var marker, i;
 
         for (i = 0; i < locations.length; i++) {  
-          var c_loc = locations[i];
+          
           marker = new google.maps.Marker({
             position: new google.maps.LatLng(locations[i]['lat'], locations[i]['lng']),
             map: map
@@ -34,6 +34,7 @@
 
           google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
+              var c_loc = locations[i];
               infowindow.setContent('<div class="infowindow"><b>' + c_loc['name'] + '</b><br />' + '<b>Rating:</b> ' + c_loc['rating'] + '</br> <a href="/browse/' + c_loc['_id'] + '">Read reviews ..</a></div>');
               infowindow.open(map, marker);
             }
