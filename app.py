@@ -18,6 +18,13 @@ collection = db.hotels
 def index():
 	return render_template('index.html')
 
-@app.route('/rate')
+@app.route('/rate', methods=['GET', 'POST'])
 def rate():
-	return 'rate here!'
+	if request.method == 'POST':
+		rating = request.form['rating']
+		hotel_name = request.form['hotel_name']
+		gp_id = request.form['gp_id']
+
+		collection.update( { "name" : hotel_name }, { "_id" : gp_id } , { "$push" : { "rating": rating }}, upsert=True)
+	
+	return render_template('rate.html')
