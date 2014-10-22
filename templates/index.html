@@ -14,6 +14,35 @@
     var map = new google.maps.Map(document.getElementById('map-canvas'), {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
+    //start test code
+    //do not delete these examples
+
+    $.getJSON('/list', function(data) {
+        var locations = data['hotels'];
+        var infowindow = new google.maps.InfoWindow({
+            maxHeight: 300
+        });
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {  
+          
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i]['lat'], locations[i]['lng']),
+            map: map
+          });
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              var c_loc = locations[i];
+              infowindow.setContent('<div class="infowindow"><b>' + c_loc['name'] + '</b><br />' + '<b>Rating:</b> ' + c_loc['rating'] + '</br> <a href="/browse/' + c_loc['_id'] + '">Read reviews ..</a></div>');
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+        }
+    });
+
+    //end test code
 
     var defaultBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(40.7, -75.0),

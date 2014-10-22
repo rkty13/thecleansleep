@@ -29,10 +29,13 @@ def rate():
 		hotel_name = request.form['pac_input']
 		name = request.form['name']
 		comment = request.form['comment']
+		lat = request.form['latitude']
+		lng = request.form['longitude']
 
-		collection.update( { "name" : hotel_name }, { "$push" : {"ratings" : rating }}, upsert=True)
-		collection.update( { "name" : hotel_name}, { "$push" : {"comments" : {"name" : name, "comment" : comment, "rating" : rating}}}, upsert=True)
 
+		collection.update( { "name" : hotel_name } , { "$push" : {"ratings" : rating }}, upsert=True)
+		collection.update( { "name" : hotel_name }, { "$push" : {"comments" : {"name" : name, "comment" : comment, "rating" : rating}}}, upsert=True)
+		collection.update({"name":hotel_name},{"$set":{"lat":lat,"lng":lng}})
 		return redirect('/rate')
 
 	hotels = []
@@ -51,6 +54,24 @@ def rate():
 
 	return render_template('rate.html', hotels=hotels)
 
+@app.route('/list', methods=['GET'])
+def list():
+	hotels = []
+
+	for record in collection.find():
+		ratings = record['ratings']
+		total = 0.0
+		counter = 0.0
+			
+		for x in range(0, len(ratings)):
+			total += float(str(ratings[x]))
+			counter += 1.0
+
+		average = total/counter
+		hotels.append({ "_id" : str(record['_id']), "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']), "lat" : record['lat'], "lng" : record['lng'] })
+
+	return jsonify(hotels=hotels)
+
 @app.route('/browse')
 def browse():
 	hotels = []
@@ -65,7 +86,7 @@ def browse():
 			counter += 1.0
 
 		average = total/counter
-		hotels.append({ "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']) })
+		hotels.append({ "_id" : str(record['_id']) , "name" : record['name'], "rating" : round(average, 2), "url" : str(record['_id']) })
 	return render_template('browse.html', hotels=hotels)
 
 @app.route('/browse/<hotel_id>')
